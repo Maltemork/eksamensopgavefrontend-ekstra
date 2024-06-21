@@ -25,7 +25,7 @@ function Sidebar() {
             key={key}
             id={item.title}
             className={
-              location.pathname.includes(String(item.route))
+              location.pathname.startsWith(String(item.route))
                 ? "row active"
                 : "row"
             }

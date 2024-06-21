@@ -323,7 +323,7 @@ const FullTable = <
           <ChevronRightIcon />
         </button>
       </div>
-      <div></div>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };

@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
-import { Athlete, Discipline, Result } from "../../../../Types";
+import { Discipline, Result } from "../../../../Types";
 import { Link, useParams } from "react-router-dom";
 import {
-  deleteAthlete,
-  getAthlete,
-  getAthleteResults,
+  deleteDiscipline,
+  getDiscipline,
+  getDisciplineResults,
 } from "../../../../services/apiFacade";
 import React from "react";
-import "./AthleteDetails.css";
+import "./DisciplineResults.css";
 import FullTable from "../../../table/FullTable";
 
-export default function AthleteDetails() {
+export default function DisciplineResults() {
   const { id } = useParams<{ id: string }>();
-  const [athlete, setAthlete] = useState<Athlete>();
+  const [discipline, setDiscipline] = useState<Discipline>();
   const [results, setResults] = useState<Result[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      getAthlete(Number(id))
-        .then((data: Athlete) => {
-          setAthlete(data);
+      getDiscipline(Number(id))
+        .then((data: Discipline) => {
+          setDiscipline(data);
         })
         .catch((err) => setError(err.message));
     }
@@ -28,52 +28,38 @@ export default function AthleteDetails() {
 
   useEffect(() => {
     if (id) {
-      getAthleteResults(Number(id))
+      getDisciplineResults(Number(id))
         .then((data: Result[]) => {
           setResults(data);
         })
-        .catch((err) => setError(err.message));
+        .catch((err: Error) => setError(err.message));
     }
   }, [id]);
 
   const handleDelete = () => {
     const confirmation = window.confirm(
-      "Are you sure you want to delete this athlete?"
+      "Are you sure you want to delete this discipline?"
     );
 
     if (confirmation) {
-      deleteAthlete(Number(id));
-      window.setTimeout(() => (window.location.href = "/athletes"), 1000);
+      deleteDiscipline(Number(id));
+      window.setTimeout(() => (window.location.href = "/disciplines"), 1000);
     }
   };
 
   return (
     <div>
-      <h1>{athlete ? athlete.name : "Athlete Details"}</h1>
-      <Link to={`/athletes/${athlete?.id}/edit`} className="edit-button">
+      <h1>{discipline ? discipline.name : "Discipline Details"}</h1>
+      <Link to={`/disciplines/${discipline?.id}/edit`} className="edit-button">
         Edit
       </Link>
       <button onClick={handleDelete} className="delete-button">
         Delete
       </button>
-      <div className="user-details-container">
-        {athlete ? (
-          Object.keys(athlete).map((key) => (
-            <React.Fragment key={key}>
-              <div>{key}</div>
-              <div>
-                {key === "disciplines" &&
-                Array.isArray(athlete[key as keyof Athlete])
-                  ? (athlete[key as keyof Athlete] as Discipline[])
-                      .map((discipline) => discipline.name)
-                      .join(", ") // Join discipline names with a comma and a space
-                  : String(athlete[key as keyof Athlete])}
-              </div>
-            </React.Fragment>
-          ))
-        ) : (
-          <p>No athlete data</p>
-        )}
+      <div>
+        <p>Id: {discipline?.id}</p>
+        <p>Name: {discipline?.name}</p>
+        <p>Description: {discipline?.description}</p>
       </div>
 
       <hr />
@@ -84,6 +70,12 @@ export default function AthleteDetails() {
             header: "ID",
             accessorKey: "id",
             type: "number",
+            searchByValue: true,
+          },
+          {
+            header: "Athlete",
+            accessorKey: "athlete.name",
+            type: "string",
             searchByValue: true,
           },
           {
@@ -101,12 +93,6 @@ export default function AthleteDetails() {
           {
             header: "Result Type",
             accessorKey: "resultType",
-            type: "string",
-            searchByValue: true,
-          },
-          {
-            header: "Discipline",
-            accessorKey: "discipline.name",
             type: "string",
             searchByValue: true,
           },
@@ -138,6 +124,7 @@ export default function AthleteDetails() {
         data={results.map((item) => ({
           ...item,
           id: item.id,
+          "athlete.name": item.athlete.name,
           result:
             item.resultType === "TIME"
               ? item.result.toFixed(2).toString().replace(".", ",") + " sec"

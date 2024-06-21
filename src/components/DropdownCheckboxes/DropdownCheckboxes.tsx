@@ -7,12 +7,14 @@ interface CheckboxDropdownProps {
   options: Option[];
   selectedOptions: Option[];
   setSelectedOptions: (options: Option[]) => void;
+  title: string;
 }
 
 export default function CheckboxDropdown({
   options,
   selectedOptions,
   setSelectedOptions,
+  title,
 }: CheckboxDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,10 +29,10 @@ export default function CheckboxDropdown({
   };
 
   return (
-    <div className="checkbox-dropdown">
-      <button onClick={toggleDropdown}>Select Disciplines</button>
+    <div className="dropdown-container">
+      <button onClick={toggleDropdown}>{title}</button>
       {isOpen && (
-        <div>
+        <div className="checkbox-dropdown">
           {options.map((option) => (
             <div key={option}>
               <label>

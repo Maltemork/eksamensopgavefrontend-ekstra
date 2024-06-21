@@ -1,0 +1,8 @@
+.header-flex-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}

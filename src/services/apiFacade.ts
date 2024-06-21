@@ -1,4 +1,4 @@
-import { Athlete, AthleteAPI, ResultAPI } from "../Types";
+import { Athlete, AthleteAPI, ResultAPI, ResultAPIWithId } from "../Types";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
 
 export async function getAthletes() {
@@ -122,6 +122,77 @@ export async function addResult(result: ResultAPI) {
   const options = makeOptions("POST", result, headers, false);
   return fetch(
     "http://localhost:8080/athletes/" + result.athleteId + "/results",
+    options
+  ).then(handleHttpErrors);
+}
+
+export async function getResult(resultId: number) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("GET", null, headers, false);
+  return fetch(
+    "http://localhost:8080/athletes/results/find-by-id/" + resultId,
+    options
+  ).then(handleHttpErrors);
+}
+
+export async function updateResult(result: ResultAPIWithId) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("PUT", result, headers, false);
+  return fetch(
+    "http://localhost:8080/athletes/results/" + result.id,
+    options
+  ).then(handleHttpErrors);
+}
+
+export async function getResults() {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("GET", null, headers, false);
+  return fetch("http://localhost:8080/athletes/results", options).then(
+    handleHttpErrors
+  );
+}
+
+export async function getDiscipline(DisciplineID: number) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("GET", null, headers, false);
+  return fetch(
+    "http://localhost:8080/disciplines/" + DisciplineID,
+    options
+  ).then(handleHttpErrors);
+}
+
+export async function getDisciplineResults(DisciplineID: number) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("GET", null, headers, false);
+  return fetch(
+    "http://localhost:8080/disciplines/" + DisciplineID + "/results",
+    options
+  ).then(handleHttpErrors);
+}
+
+export async function deleteDiscipline(DisciplineID: number) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("DELETE", null, headers, false);
+  return fetch(
+    "http://localhost:8080/disciplines/" + DisciplineID,
     options
   ).then(handleHttpErrors);
 }

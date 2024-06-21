@@ -62,3 +62,16 @@ export interface ResultAPI {
   placement: string;
   comment: string;
 }
+
+export interface ResultAPIWithId {
+  id: number;
+  athleteId: number;
+  disciplineId: number;
+  result: number;
+  resultType: string;
+  date: Date;
+  location: string;
+  competition: string;
+  placement: string;
+  comment: string;
+}

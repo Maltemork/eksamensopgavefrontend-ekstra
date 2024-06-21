@@ -1,13 +1,19 @@
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+}
+
 .checkbox-dropdown {
   position: absolute;
-  top: 43px;
-  left: 300px;
+  min-width: 100%;
   z-index: 1000;
   background-color: rgb(83, 83, 83);
   padding: 10px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   max-height: 600px;
   overflow-y: auto;
+  top: 100%;
 }
 
 .checkbox-dropdown label {
@@ -15,7 +21,9 @@
   margin: 5px 0;
 }
 
+.dropdown-container button,
 .checkbox-dropdown button {
+  padding: 10px 20px;
   background-color: rgb(83, 83, 83);
   color: white;
   border: none;

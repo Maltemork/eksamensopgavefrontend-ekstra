@@ -131,6 +131,7 @@ export default function ResultAdd() {
         </label>
         <button type="submit">Submit</button>
       </form>
+      {err && <p>{err}</p>}
     </div>
   );
 }

@@ -45,7 +45,7 @@ export default function DisciplinesPage() {
           id: item.id,
         }))}
         createButton={false}
-        clickableItems={false}
+        clickableItems={true}
         error={error || ""}
       />
     </div>

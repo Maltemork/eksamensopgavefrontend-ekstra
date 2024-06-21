@@ -1,82 +1,24 @@
 import { useEffect, useState } from "react";
-import { Athlete, Discipline, Result } from "../../../../Types";
-import { Link, useParams } from "react-router-dom";
-import {
-  deleteAthlete,
-  getAthlete,
-  getAthleteResults,
-} from "../../../../services/apiFacade";
-import React from "react";
-import "./AthleteDetails.css";
+import { getResults } from "../../../../services/apiFacade";
+import { Result } from "../../../../Types";
 import FullTable from "../../../table/FullTable";
 
-export default function AthleteDetails() {
-  const { id } = useParams<{ id: string }>();
-  const [athlete, setAthlete] = useState<Athlete>();
+export default function ResultsPage() {
   const [results, setResults] = useState<Result[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id) {
-      getAthlete(Number(id))
-        .then((data: Athlete) => {
-          setAthlete(data);
-        })
-        .catch((err) => setError(err.message));
-    }
-  }, [id]);
+    getResults()
+      .then((data) => setResults(data))
+      .catch((err) => setError(err.message));
+  }, []);
 
   useEffect(() => {
-    if (id) {
-      getAthleteResults(Number(id))
-        .then((data: Result[]) => {
-          setResults(data);
-        })
-        .catch((err) => setError(err.message));
-    }
-  }, [id]);
-
-  const handleDelete = () => {
-    const confirmation = window.confirm(
-      "Are you sure you want to delete this athlete?"
-    );
-
-    if (confirmation) {
-      deleteAthlete(Number(id));
-      window.setTimeout(() => (window.location.href = "/athletes"), 1000);
-    }
-  };
+    console.log(results);
+  }, [results]);
 
   return (
     <div>
-      <h1>{athlete ? athlete.name : "Athlete Details"}</h1>
-      <Link to={`/athletes/${athlete?.id}/edit`} className="edit-button">
-        Edit
-      </Link>
-      <button onClick={handleDelete} className="delete-button">
-        Delete
-      </button>
-      <div className="user-details-container">
-        {athlete ? (
-          Object.keys(athlete).map((key) => (
-            <React.Fragment key={key}>
-              <div>{key}</div>
-              <div>
-                {key === "disciplines" &&
-                Array.isArray(athlete[key as keyof Athlete])
-                  ? (athlete[key as keyof Athlete] as Discipline[])
-                      .map((discipline) => discipline.name)
-                      .join(", ") // Join discipline names with a comma and a space
-                  : String(athlete[key as keyof Athlete])}
-              </div>
-            </React.Fragment>
-          ))
-        ) : (
-          <p>No athlete data</p>
-        )}
-      </div>
-
-      <hr />
       <h1>Results</h1>
       <FullTable
         schema={[
@@ -84,6 +26,12 @@ export default function AthleteDetails() {
             header: "ID",
             accessorKey: "id",
             type: "number",
+            searchByValue: true,
+          },
+          {
+            header: "Athlete",
+            accessorKey: "athlete.name",
+            type: "string",
             searchByValue: true,
           },
           {
@@ -138,6 +86,9 @@ export default function AthleteDetails() {
         data={results.map((item) => ({
           ...item,
           id: item.id,
+          "discipline.name": item.discipline.name,
+          "athlete.name": item.athlete.name,
+          "athlete.gender": item.athlete.gender,
           result:
             item.resultType === "TIME"
               ? item.result.toFixed(2).toString().replace(".", ",") + " sec"
@@ -146,7 +97,6 @@ export default function AthleteDetails() {
         itemsPerPage={5}
         createButton={true}
         clickableItems={true}
-        clickableItemsRoute="/results"
         error={error ? "No Data Found" : ""}
       />
     </div>

@@ -5,6 +5,9 @@ import AddPage from "./pages/AthletesPage/AddPage/AddPage";
 import AthleteEdit from "./pages/AthletesPage/DetailPage/EditPage/AthleteEdit";
 import DisciplinesPage from "./pages/DisciplinesPage/DisciplinesPage";
 import ResultAdd from "./pages/AthletesPage/ResultAdd/ResultAdd";
+import ResultEdit from "./pages/AthletesPage/ResultEdit/ResultEdit";
+import ResultsPage from "./pages/AthletesPage/ResultsPage/ResultsPage";
+import DisciplineResults from "./pages/DisciplinesPage/DisciplineResults/DisciplineResults";
 
 export const AppRoutes = [
   {
@@ -28,11 +31,23 @@ export const AppRoutes = [
     Element: <AthleteEdit />,
   },
   {
-    path: "athletes/:id/results/add",
+    path: "/athletes/:id/results/add",
     Element: <ResultAdd />,
+  },
+  {
+    path: "/athletes/:athleteId/results/:resultId",
+    Element: <ResultEdit />,
   },
   {
     path: "/disciplines",
     Element: <DisciplinesPage />,
+  },
+  {
+    path: "/disciplines/:id",
+    Element: <DisciplineResults />,
+  },
+  {
+    path: "/results",
+    Element: <ResultsPage />,
   },
 ];
