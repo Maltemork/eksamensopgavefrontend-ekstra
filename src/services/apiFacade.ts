@@ -161,6 +161,18 @@ export async function getResults() {
   );
 }
 
+export async function deleteResult(resultId: number) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("DELETE", null, headers, false);
+  return fetch(
+    "http://localhost:8080/athletes/results/" + resultId,
+    options
+  ).then(handleHttpErrors);
+}
+
 export async function getDiscipline(DisciplineID: number) {
   const headers = {
     "Content-Type": "application/json",

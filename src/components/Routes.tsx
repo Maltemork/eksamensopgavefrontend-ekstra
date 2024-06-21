@@ -6,8 +6,9 @@ import AthleteEdit from "./pages/AthletesPage/DetailPage/EditPage/AthleteEdit";
 import DisciplinesPage from "./pages/DisciplinesPage/DisciplinesPage";
 import ResultAdd from "./pages/AthletesPage/ResultAdd/ResultAdd";
 import ResultEdit from "./pages/AthletesPage/ResultEdit/ResultEdit";
-import ResultsPage from "./pages/AthletesPage/ResultsPage/ResultsPage";
 import DisciplineResults from "./pages/DisciplinesPage/DisciplineResults/DisciplineResults";
+import DisciplineAddResult from "./pages/DisciplinesPage/DisciplineResults/DisciplineAddResult/DisciplineAddResult";
+import DisciplineEditResult from "./pages/DisciplinesPage/DisciplineResults/DisciplineEditResult/DisciplineEditResult";
 
 export const AppRoutes = [
   {
@@ -47,7 +48,15 @@ export const AppRoutes = [
     Element: <DisciplineResults />,
   },
   {
-    path: "/results",
-    Element: <ResultsPage />,
+    path: "/disciplines/:disciplineId/results/:resultId",
+    Element: <DisciplineEditResult />,
+  },
+  {
+    path: "*",
+    Element: <div>404 - page not found</div>,
+  },
+  {
+    path: "/disciplines/:disciplineId/results/add",
+    Element: <DisciplineAddResult />,
   },
 ];

@@ -138,6 +138,7 @@ export default function AthleteDetails() {
         data={results.map((item) => ({
           ...item,
           id: item.id,
+          "discipline.name": item.discipline?.name || "",
           result:
             item.resultType === "TIME"
               ? item.result.toFixed(2).toString().replace(".", ",") + " sec"

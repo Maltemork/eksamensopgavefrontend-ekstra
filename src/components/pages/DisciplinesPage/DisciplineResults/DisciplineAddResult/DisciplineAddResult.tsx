@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
-import { Discipline, ResultAPI } from "../../../../Types";
-import "./ResultAdd.css";
-import { addResult, getDisciplines } from "../../../../services/apiFacade";
+import { Discipline, ResultAPI } from "../../../../../Types";
+import "./DisciplineAddResult.css";
+import {
+  addResult,
+  getAthlete,
+  getDisciplines,
+} from "../../../../../services/apiFacade";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function ResultAdd() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { disciplineId } = useParams();
+  const [athleteName, setAthleteName] = useState<string>("No Athlete Found");
+  const [athleteFound, setAthleteFound] = useState<boolean>(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [result, setResult] = useState<ResultAPI>({
-    athleteId: Number(id),
-    disciplineId: 0,
+    athleteId: 0,
+    disciplineId: Number(disciplineId),
     result: 0,
     resultType: "",
     date: new Date("01/01/2021"),
@@ -20,6 +27,10 @@ export default function ResultAdd() {
     placement: "",
     comment: "",
   });
+
+  useEffect(() => {
+    console.log(result);
+  }, [result]);
 
   useEffect(() => {
     getDisciplines()
@@ -45,23 +56,61 @@ export default function ResultAdd() {
     addResult(result)
       .catch((err) => console.log(err))
       .then(() => {
-        navigate("/athletes/" + id);
+        window.setTimeout(() => {
+          navigate("/disciplines/" + disciplineId);
+        }, 500);
       });
+  };
+
+  const handleAthleteIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Cancel the previous timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout
+    const newTimeoutId = setTimeout(() => {
+      getAthlete(Number(e.target.value))
+        .then((athlete) => {
+          result.athleteId = athlete.id;
+          setAthleteName(athlete.name);
+          setAthleteFound(true);
+        })
+        .catch(() => {
+          setAthleteFound(false);
+        });
+    }, 600);
+
+    // Save the timeout ID
+    setTimeoutId(newTimeoutId);
   };
 
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
-        <h1>Add Result</h1>
         <label>
           Discipline (required):
-          <select name="disciplineId" onChange={handleInputChange} required>
+          <select
+            name="disciplineId"
+            onChange={handleInputChange}
+            required
+            disabled
+          >
             {disciplines.map((discipline) => (
               <option key={discipline.id} value={discipline.id}>
                 {discipline.name}
               </option>
             ))}
           </select>
+        </label>
+        <label>
+          Athlete ID:
+          <input name="athleteId" onChange={handleAthleteIdChange} />
+          {athleteFound ? (
+            <p style={{ color: "green" }}>Athlete found: {athleteName}</p>
+          ) : (
+            <p style={{ color: "red" }}>No athlete found</p>
+          )}
         </label>
         <label>
           Result (required):
@@ -130,7 +179,13 @@ export default function ResultAdd() {
             onChange={handleInputChange}
           />
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          disabled={!athleteFound}
+          style={{ backgroundColor: athleteFound ? "green" : "red" }}
+        >
+          Submit
+        </button>
       </form>
       {err && <p>{err}</p>}
     </div>

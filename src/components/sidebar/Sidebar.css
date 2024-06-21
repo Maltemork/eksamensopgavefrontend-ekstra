@@ -23,18 +23,17 @@
   margin-top: auto;
   margin-bottom: auto;
   grid-template-columns: 1fr 2fr;
-  height: fit-content;
   scale: 1;
-  width: fit-content;
   translate: 0px 0px;
   border-bottom: 2px solid rgb(73, 73, 73);
   padding-bottom: 20px;
   max-width: 100%;
-  padding-left: 8px;
 }
 
 #sidebar-logo p {
   margin-left: 20px;
+  transform: translateY(-14px);
+  color: cyan;
 }
 
 #sidebar-logo img {
@@ -100,12 +99,6 @@
   display: none;
 }
 
-#sidebar-login,
-#sidebar-signout {
-  position: absolute;
-  bottom: 0;
-}
-
 .row:hover {
   cursor: pointer;
 }
@@ -116,7 +109,9 @@
   }
 }
 
-.sub-nav {
-  padding-left: 80px;
-  font-size: 12px;
+#running-logo-thing {
+  height: 30px;
+  width: 30px;
+  margin-bottom: 40px;
+  filter: hue-rotate(180deg) saturate(4);
 }

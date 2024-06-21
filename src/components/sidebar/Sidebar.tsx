@@ -3,6 +3,7 @@ import "./Sidebar.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import React from "react";
 import { SidebarData } from "./SidebarData";
+import RunCircleIcon from "@mui/icons-material/RunCircle";
 
 function Sidebar() {
   const location = useLocation();
@@ -66,12 +67,7 @@ function Sidebar() {
             className={location.pathname === "/" ? "row active" : "row"}
           >
             <NavLink to="/">
-              <div
-                className="row-title"
-                style={{ display: isOpen ? "none" : "block" }}
-              >
-                <p>AT</p>
-              </div>
+              <RunCircleIcon className="row-icon" id="running-logo-thing" />
               <div
                 className="row-title"
                 style={{ display: isOpen ? "block" : "none" }}

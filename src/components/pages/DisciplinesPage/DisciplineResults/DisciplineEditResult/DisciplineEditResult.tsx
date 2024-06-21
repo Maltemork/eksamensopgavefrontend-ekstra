@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Discipline, ResultAPIWithId } from "../../../../Types";
+import { Discipline, ResultAPIWithId } from "../../../../../Types";
 import { useEffect, useState } from "react";
 import {
   deleteResult,
   getDisciplines,
   getResult,
   updateResult,
-} from "../../../../services/apiFacade";
+} from "../../../../../services/apiFacade";
 
-export default function ResultEdit() {
+export default function DisciplineEditResult() {
   const navigate = useNavigate();
   const { athleteId, resultId } = useParams();
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
@@ -54,7 +54,7 @@ export default function ResultEdit() {
     console.log(result);
     event.preventDefault();
     updateResult(result);
-    window.setTimeout(() => navigate(`/athletes/${athleteId}`), 200);
+    window.setTimeout(() => navigate(-1), 200);
   };
 
   const handleDeleteClicked = () => {
@@ -64,7 +64,10 @@ export default function ResultEdit() {
 
     if (confirmation) {
       deleteResult(result.id);
-      window.setTimeout(() => navigate(`/athletes/${athleteId}`), 200);
+      window.setTimeout(
+        () => navigate(`/disciplines/${result.disciplineId}`),
+        200
+      );
     }
   };
 

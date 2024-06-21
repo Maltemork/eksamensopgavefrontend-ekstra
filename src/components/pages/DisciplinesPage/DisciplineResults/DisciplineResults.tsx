@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Discipline, Result } from "../../../../Types";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  deleteDiscipline,
   getDiscipline,
   getDisciplineResults,
 } from "../../../../services/apiFacade";
-import React from "react";
 import "./DisciplineResults.css";
 import FullTable from "../../../table/FullTable";
 
@@ -36,26 +34,9 @@ export default function DisciplineResults() {
     }
   }, [id]);
 
-  const handleDelete = () => {
-    const confirmation = window.confirm(
-      "Are you sure you want to delete this discipline?"
-    );
-
-    if (confirmation) {
-      deleteDiscipline(Number(id));
-      window.setTimeout(() => (window.location.href = "/disciplines"), 1000);
-    }
-  };
-
   return (
     <div>
       <h1>{discipline ? discipline.name : "Discipline Details"}</h1>
-      <Link to={`/disciplines/${discipline?.id}/edit`} className="edit-button">
-        Edit
-      </Link>
-      <button onClick={handleDelete} className="delete-button">
-        Delete
-      </button>
       <div>
         <p>Id: {discipline?.id}</p>
         <p>Name: {discipline?.name}</p>

@@ -9,6 +9,7 @@ export default function HomePage() {
         This is a simple app to track the results of athletic disciplines. You
         can add, edit, and delete disciplines and results.
       </p>
+      <p>You can add results based on disciplines and athletes.</p>
       <Link to="/disciplines" className="HomePageButton">
         Go to disciplines
       </Link>
