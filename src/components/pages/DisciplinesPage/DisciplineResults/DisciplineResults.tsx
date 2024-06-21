@@ -68,7 +68,7 @@ export default function DisciplineResults() {
           {
             header: "Result",
             accessorKey: "result",
-            type: "number",
+            type: "string",
             searchByValue: true,
           },
           {
