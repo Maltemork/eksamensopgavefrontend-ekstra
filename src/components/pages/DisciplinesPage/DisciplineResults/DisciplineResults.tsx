@@ -7,12 +7,24 @@ import {
 } from "../../../../services/apiFacade";
 import "./DisciplineResults.css";
 import FullTable from "../../../table/FullTable";
+import CheckboxDropdown from "../../../DropdownCheckboxes/DropdownCheckboxes";
 
 export default function DisciplineResults() {
+  const ageRanges = [
+    "0 - 5",
+    "6 - 9",
+    "10 - 13",
+    "14 - 22",
+    "23 - 40",
+    "41 - 120",
+  ];
   const { id } = useParams<{ id: string }>();
   const [discipline, setDiscipline] = useState<Discipline>();
+
   const [results, setResults] = useState<Result[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [selectedGenders, setSelectedGenders] = useState<string[]>([]);
+  const [selectedAgeRanges, setSelectedAgeRanges] = useState<string[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -34,6 +46,24 @@ export default function DisciplineResults() {
     }
   }, [id]);
 
+  const filterFunction = (result: Result) => {
+    if (
+      selectedGenders.length > 0 &&
+      !selectedGenders.includes(result.athlete.gender)
+    )
+      return false;
+    if (selectedAgeRanges.length > 0) {
+      const isInSelectedAgeRange = selectedAgeRanges.some((range) => {
+        const [min, max] = range.split(" - ").map(Number);
+        return result.athlete.age >= min && result.athlete.age <= max;
+      });
+
+      if (!isInSelectedAgeRange) return false;
+    }
+
+    return true;
+  };
+
   return (
     <div>
       <h1>{discipline ? discipline.name : "Discipline Details"}</h1>
@@ -45,6 +75,22 @@ export default function DisciplineResults() {
 
       <hr />
       <h1>Results</h1>
+      <div className="flex-list">
+        <CheckboxDropdown
+          options={Array.from(
+            new Set(results.map((result) => result.athlete.gender))
+          )}
+          selectedOptions={selectedGenders}
+          setSelectedOptions={setSelectedGenders}
+          title="Gender"
+        />
+        <CheckboxDropdown
+          options={ageRanges}
+          selectedOptions={selectedAgeRanges}
+          setSelectedOptions={setSelectedAgeRanges}
+          title="Age Range"
+        />
+      </div>
       <FullTable
         schema={[
           {
@@ -108,13 +154,14 @@ export default function DisciplineResults() {
           "athlete.name": item.athlete.name,
           result:
             item.resultType === "TIME"
-              ? item.result.toFixed(2).toString().replace(".", ",") + " sec"
-              : item.result.toFixed(2).toString().replace(".", ",") + " m",
+              ? parseFloat(item.result.toFixed(2))
+              : parseFloat(item.result.toFixed(2)),
         }))}
         itemsPerPage={5}
         createButton={true}
         clickableItems={true}
         clickableItemsRoute="/results"
+        filterFunction={filterFunction}
         error={error ? "No Data Found" : ""}
       />
     </div>
