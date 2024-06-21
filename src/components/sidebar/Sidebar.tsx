@@ -32,8 +32,7 @@ function Sidebar() {
           >
             <Link to={String(item.route)}>
               <div className="row-icon" key={key}>
-                {" "}
-                {item.icon}{" "}
+                {item.icon}
               </div>
               <div
                 className="row-title"
@@ -67,12 +66,17 @@ function Sidebar() {
             className={location.pathname === "/" ? "row active" : "row"}
           >
             <NavLink to="/">
-              <img src="../../../public/Logo.png" alt="" className="row-icon" />
+              <div
+                className="row-title"
+                style={{ display: isOpen ? "none" : "block" }}
+              >
+                <p>AT</p>
+              </div>
               <div
                 className="row-title"
                 style={{ display: isOpen ? "block" : "none" }}
               >
-                <p>Kea Bowling</p>
+                <p>Athletics Tracker</p>
               </div>
             </NavLink>
           </li>

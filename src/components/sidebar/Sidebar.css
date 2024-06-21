@@ -30,6 +30,7 @@
   border-bottom: 2px solid rgb(73, 73, 73);
   padding-bottom: 20px;
   max-width: 100%;
+  padding-left: 8px;
 }
 
 #sidebar-logo p {
@@ -113,4 +114,9 @@
   to {
     opacity: 1;
   }
+}
+
+.sub-nav {
+  padding-left: 80px;
+  font-size: 12px;
 }

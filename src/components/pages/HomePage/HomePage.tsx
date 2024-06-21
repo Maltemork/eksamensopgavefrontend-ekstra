@@ -3,7 +3,7 @@ import "./HomePage.css";
 
 export default function HomePage() {
   return (
-    <div>
+    <div id="home-page-container">
       <h1>Welcome to the Athletics Result Tracker!</h1>
       <p>
         This is a simple app to track the results of athletic disciplines. You

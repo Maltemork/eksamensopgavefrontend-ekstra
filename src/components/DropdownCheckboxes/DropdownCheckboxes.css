@@ -1,0 +1,23 @@
+.checkbox-dropdown {
+  position: absolute;
+  top: 43px;
+  left: 300px;
+  z-index: 1000;
+  background-color: rgb(83, 83, 83);
+  padding: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.checkbox-dropdown label {
+  display: block;
+  margin: 5px 0;
+}
+
+.checkbox-dropdown button {
+  background-color: rgb(83, 83, 83);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
