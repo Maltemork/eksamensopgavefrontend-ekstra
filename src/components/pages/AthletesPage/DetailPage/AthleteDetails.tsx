@@ -69,14 +69,9 @@ export default function AthleteDetails() {
               <div>
                 {key === "disciplines" &&
                 Array.isArray(athlete[key as keyof Athlete])
-                  ? (athlete[key as keyof Athlete] as Discipline[]).map(
-                      (discipline, index) => (
-                        <div key={index}>
-                          {/* Replace 'property' with actual properties of Discipline */}
-                          {discipline.name}
-                        </div>
-                      )
-                    )
+                  ? (athlete[key as keyof Athlete] as Discipline[])
+                      .map((discipline) => discipline.name)
+                      .join(", ") // Join discipline names with a comma and a space
                   : String(athlete[key as keyof Athlete])}
               </div>
             </React.Fragment>
@@ -156,7 +151,7 @@ export default function AthleteDetails() {
         itemsPerPage={5}
         createButton={true}
         clickableItems={true}
-        clickableItemsRoute="/result"
+        clickableItemsRoute="/results"
         error={error ? "No Data Found" : ""}
       />
     </div>

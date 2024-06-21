@@ -4,6 +4,7 @@ import AthleteDetails from "./pages/AthletesPage/DetailPage/AthleteDetails";
 import AddPage from "./pages/AthletesPage/AddPage/AddPage";
 import AthleteEdit from "./pages/AthletesPage/DetailPage/EditPage/AthleteEdit";
 import DisciplinesPage from "./pages/DisciplinesPage/DisciplinesPage";
+import ResultAdd from "./pages/AthletesPage/ResultAdd/ResultAdd";
 
 export const AppRoutes = [
   {
@@ -25,6 +26,10 @@ export const AppRoutes = [
   {
     path: "/athletes/:id/edit",
     Element: <AthleteEdit />,
+  },
+  {
+    path: "athletes/:id/results/add",
+    Element: <ResultAdd />,
   },
   {
     path: "/disciplines",

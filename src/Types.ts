@@ -50,3 +50,15 @@ export interface Result {
   comment: string;
   disciplineId: number;
 }
+
+export interface ResultAPI {
+  athleteId: number;
+  disciplineId: number;
+  result: number;
+  resultType: string;
+  date: Date;
+  location: string;
+  competition: string;
+  placement: string;
+  comment: string;
+}

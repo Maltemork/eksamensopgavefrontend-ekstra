@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { Athlete } from "../../../../../Types";
+import { Athlete, Discipline } from "../../../../../Types";
 import "./AthleteEdit.css";
-import { updateAthlete, getAthlete } from "../../../../../services/apiFacade";
+import {
+  updateAthlete,
+  getAthlete,
+  getDisciplines,
+} from "../../../../../services/apiFacade";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function AthleteEdit() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [athlete, setAthlete] = useState<Athlete>({
     id: 0,
     name: "",
@@ -51,6 +56,10 @@ export default function AthleteEdit() {
     }
   }, [id]);
 
+  useEffect(() => {
+    getDisciplines().then((data) => setDisciplines(data));
+  }, []);
+
   const handleInputChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -59,13 +68,32 @@ export default function AthleteEdit() {
     setAthlete({ ...athlete, [event.target.name]: event.target.value });
   };
 
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    discipline: Discipline
+  ) => {
+    if (event.target.checked) {
+      setAthlete({
+        ...athlete,
+        disciplines: [...athlete.disciplines, discipline],
+      });
+    } else {
+      setAthlete({
+        ...athlete,
+        disciplines: athlete.disciplines.filter(
+          (existingDiscipline) => existingDiscipline.id !== discipline.id
+        ),
+      });
+    }
+  };
+
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(athlete);
     updateAthlete(athlete)
       .catch((err) => console.log(err))
       .then(() => {
-        navigate("/athletes");
+        navigate("/athletes/" + athlete.id);
       });
   };
 
@@ -184,6 +212,22 @@ export default function AthleteEdit() {
             onChange={handleInputChange}
           />
         </label>
+        <fieldset>
+          <legend>Disciplines:</legend>
+          {disciplines.map((discipline) => (
+            <label key={discipline.id}>
+              <input
+                type="checkbox"
+                name={discipline.id.toString()} // Convert id to string
+                checked={athlete.disciplines.some(
+                  (d) => d.id === discipline.id
+                )} // Check if discipline is already selected
+                onChange={(event) => handleCheckboxChange(event, discipline)} // Pass discipline object to the handler
+              />
+              {discipline.name}
+            </label>
+          ))}
+        </fieldset>
         <button type="submit">Update</button>
       </form>
     </div>

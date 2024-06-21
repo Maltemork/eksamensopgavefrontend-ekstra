@@ -1,4 +1,4 @@
-import { Athlete, AthleteAPI } from "../Types";
+import { Athlete, AthleteAPI, ResultAPI } from "../Types";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
 
 export async function getAthletes() {
@@ -112,4 +112,16 @@ export async function getDisciplines() {
   return fetch("http://localhost:8080/disciplines", options).then(
     handleHttpErrors
   );
+}
+
+export async function addResult(result: ResultAPI) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const options = makeOptions("POST", result, headers, false);
+  return fetch(
+    "http://localhost:8080/athletes/" + result.athleteId + "/results",
+    options
+  ).then(handleHttpErrors);
 }
