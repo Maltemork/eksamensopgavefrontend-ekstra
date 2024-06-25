@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Discipline, ResultAPI } from "../../../../../Types";
+import { Discipline, ResultAPI, ResultType } from "../../../../../Types";
 import "./DisciplineAddResult.css";
 import {
   addResult,
@@ -20,7 +20,7 @@ export default function ResultAdd() {
     athleteId: 0,
     disciplineId: Number(disciplineId),
     result: 1,
-    resultType: "TIME",
+    resultType: ResultType.TIME,
     date: new Date("01/01/2024"),
     location: "",
     competition: "",
@@ -130,8 +130,8 @@ export default function ResultAdd() {
             defaultValue={"TIME"}
             required
           >
-            <option value="TIME">Time</option>
-            <option value="DISTANCE">Distance</option>
+            <option value={ResultType.TIME}>Time</option>
+            <option value={ResultType.DISTANCE}>Distance</option>
           </select>
         </label>
         <label>

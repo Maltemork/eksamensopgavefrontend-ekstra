@@ -75,3 +75,14 @@ export interface ResultAPIWithId {
   placement: string;
   comment: string;
 }
+
+// Jeg skulle have brugt denne enum i stedet for at bruge string i ResultAPI og Result...
+export enum ResultType {
+  TIME = "TIME",
+  DISTANCE = "DISTANCE",
+  // Jeg skulle have lavet flere Result Types også...
+  POINTS = "POINTS",
+  PLACEMENT = "PLACEMENT",
+  HEIGHT = "HEIGHT",
+  WEIGHT = "WEIGHT",
+}
