@@ -11,9 +11,9 @@ export default function ResultAdd() {
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [result, setResult] = useState<ResultAPI>({
     athleteId: Number(id),
-    disciplineId: 0,
-    result: 0,
-    resultType: "",
+    disciplineId: 1,
+    result: 1,
+    resultType: "TIME",
     date: new Date("01/01/2021"),
     location: "",
     competition: "",
