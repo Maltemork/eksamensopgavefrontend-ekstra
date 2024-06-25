@@ -19,32 +19,25 @@ function Sidebar() {
   // Sidebar list and HTML.
   const sidebarList = SidebarData.map((item, key) => {
     return (
-      <React.Fragment key={key}>
-        {
-          // Check item.role and if user is logged in, the item should be shown if the user has the role.
-          <li
-            key={key}
-            id={item.title}
-            className={
-              location.pathname.startsWith(String(item.route))
-                ? "row active"
-                : "row"
-            }
-          >
-            <Link to={String(item.route)}>
-              <div className="row-icon" key={key}>
-                {item.icon}
-              </div>
-              <div
-                className="row-title"
-                style={{ display: isOpen ? "block" : "none" }}
-              >
-                <p>{item.title}</p>
-              </div>
-            </Link>
-          </li>
+      <li
+        key={key}
+        id={item.title}
+        className={
+          location.pathname.startsWith(item.route) ? "row active" : "row"
         }
-      </React.Fragment>
+      >
+        <Link to={item.route}>
+          <div className="row-icon" key={key}>
+            {item.icon}
+          </div>
+          <div
+            className="row-title"
+            style={{ display: isOpen ? "block" : "none" }}
+          >
+            <p>{item.title}</p>
+          </div>
+        </Link>
+      </li>
     );
   });
 

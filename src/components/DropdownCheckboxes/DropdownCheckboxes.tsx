@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./DropdownCheckboxes.css";
 
-type Option = string; // Replace 'string' with the actual type of 'options' if it's not a string array
+type Option = string;
 
 interface CheckboxDropdownProps {
   options: Option[];

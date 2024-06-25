@@ -46,7 +46,6 @@ const FullTable = <
   // State
   const navigate = useNavigate();
   const location = useLocation();
-
   const [searchTerm, setSearchTerm] = useState("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortField, setSortField] = useState<string | null>(null);
