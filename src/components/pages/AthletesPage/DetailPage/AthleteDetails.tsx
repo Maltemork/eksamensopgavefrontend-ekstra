@@ -58,16 +58,16 @@ export default function AthleteDetails() {
       </button>
       <div className="user-details-container">
         {athlete ? (
-          Object.keys(athlete).map((key) => (
+          Object.keys(athlete).map((itemKey, key) => (
             <React.Fragment key={key}>
-              <div>{key}</div>
+              <div>{itemKey}</div>
               <div>
-                {key === "disciplines" &&
-                Array.isArray(athlete[key as keyof Athlete])
-                  ? (athlete[key as keyof Athlete] as Discipline[])
+                {itemKey === "disciplines" &&
+                Array.isArray(athlete[itemKey as keyof Athlete])
+                  ? (athlete[itemKey as keyof Athlete] as Discipline[])
                       .map((discipline) => discipline.name)
                       .join(", ") // Join discipline names with a comma and a space
-                  : String(athlete[key as keyof Athlete])}
+                  : String(athlete[itemKey as keyof Athlete])}
               </div>
             </React.Fragment>
           ))

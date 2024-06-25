@@ -146,12 +146,6 @@ export default function AthletesPage() {
             type: "string",
             searchByValue: false,
           },
-          {
-            header: "Country",
-            accessorKey: "country",
-            type: "string",
-            searchByValue: false,
-          },
         ]}
         data={athletes.map((item) => ({
           ...item,
